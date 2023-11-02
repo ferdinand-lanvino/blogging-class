@@ -52,7 +52,7 @@ class ArticleController extends Controller
         $article = Article::create([
             'title' => $validated['title'],
             'body' => $validated['body'],
-            'published_at' => $request->has('is_published') ? Carbon::now() : false,
+            'published_at' => $request->has('is_published') ? Carbon::now() : null,
             'image' => $validated['image'] ?? null,
         ]);
 
