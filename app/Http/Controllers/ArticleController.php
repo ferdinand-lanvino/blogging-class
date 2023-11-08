@@ -9,12 +9,19 @@ use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->except('show');
+        $this->middleware('admin')->except('show');
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
         $articles = Article::paginate(10);
+        //return to json
+        return response()->json($articles);
         return view('articles.index', compact('articles'));
     }
 
