@@ -1,13 +1,11 @@
 @extends('layouts.template')
 
-@section('title', 'Articles List')
+@section('title', 'Categories List')
 
 @section('content')
     <div class="mt-4 p-5 bg-black text-white rounded">
-        <h1>All Articles</h1>
-        <a href="{{ route('articles.create') }}" class="btn btn-primary btn-sm">
-            Add New Article
-        </a>
+        <h1>All Categories</h1>
+        <a href="{{ route('categories.create') }}" class="btn btn-primary btn-sm">Add New Category</a>
     </div>
 
     @if (session()->has('success'))
@@ -16,37 +14,38 @@
         </div>
     @endif
 
-    <div class="container mt-5">
+    <div class="container mt-2">
         <table class="table table-bordered mb-5">
             <thead>
                 <tr class="table-success">
                     <th scope="col">#</th>
-                    <th scope="col">Title</th>
-                    <th scope="col">Body</th>
-                    <th scope="col">Category</th>
+                    <th scope="col">Category Name</th>
+                    <th scope="col">Slug</th>
+                    <th scope="col">Description</th>
                     <th scope="col">Created At</th>
                     <th scope="col">Updated At</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($articles as $article)
+                @forelse ($categories as $category)
                     <tr>
-                        <th scope="row">
-                            <a href="{{ route('articles.show', $article) }}">
-                                {{ $article->title }}
-                            </a>
-                        </th>
-                        <td>{{ $article->title }}</td>
-                        <td>{{ Str::limit($article->body, 50, ' ...') }}</td>
-                        <td>{{ $article->category?->name ?? 'No Category' }}</td>
-                        <td>{{ $article->created_at }}</td>
-                        <td>{{ $article->updated_at }}</td>
+                        <th scope="row">{{ $category->id }}</th>
                         <td>
-                            <a href="{{ route('articles.edit', $article) }}" class="btn btn-primary btn-sm">
+                            {{ $category->name }}
+                        </td>
+                        <td>
+                            {{ $category->slug }}
+                        </td>
+                        <td>{{ Str::limit($category->description, 50, ' ...') }}</td>
+                        <td>{{ $category->created_at }}</td>
+                        <td>{{ $category->updated_at }}</td>
+                        <td>
+                            <a href="{{ route('categories.edit', $category) }}" class="btn btn-primary btn-sm">
                                 Edit
                             </a>
-                            <form action="{{ route('articles.destroy', $article) }}" method="POST" class="d-inline-block">
+                            <form action="{{ route('categories.destroy', $category) }}" method="POST"
+                                class="d-inline-block">
                                 @method('DELETE')
                                 @csrf
                                 <button type="submit" class="btn btn-danger btn-sm"
@@ -57,14 +56,14 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6">No articles found.</td>
+                        <td colspan="7" class="text-center">No categories found.</td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
-
+        {{-- Pagination --}}
         <div class="d-flex justify-content-center">
-            {!! $articles->links() !!}
+            {!! $categories->links() !!}
         </div>
     </div>
 @endsection

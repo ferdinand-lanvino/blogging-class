@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -12,7 +13,7 @@ class ArticleController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->except('show');
-        $this->middleware('admin')->except('show');
+        // $this->middleware('admin')->except('show');
     }
     /**
      * Display a listing of the resource.
@@ -21,7 +22,6 @@ class ArticleController extends Controller
     {
         $articles = Article::paginate(10);
         //return to json
-        return response()->json($articles);
         return view('articles.index', compact('articles'));
     }
 
@@ -30,7 +30,8 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('articles.create');
+        $categories = Category::all();
+        return view('articles.create', compact('categories'));
     }
 
     /**
@@ -41,6 +42,8 @@ class ArticleController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|min:3|max:255',
             'body' => 'required|string',
+            //Tambah kolom category_id
+            'category_id' => 'nullable|exists:categories,id',
         ]);
 
         // Simpan gambar jika ada
@@ -61,6 +64,8 @@ class ArticleController extends Controller
             'body' => $validated['body'],
             'published_at' => $request->has('is_published') ? Carbon::now() : null,
             'image' => $validated['image'] ?? null,
+            //Tambah category_id
+            'category_id' => $validated['category_id'] ?? null,
         ]);
 
         return redirect()->route('articles.index')->with('success', 'Article added successfully.');
@@ -79,7 +84,8 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        return view('articles.edit', compact('article'));
+        $categories = Category::all();
+        return view('articles.edit', compact('article', 'categories'));
     }
 
     /**
@@ -90,6 +96,8 @@ class ArticleController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|min:3|max:255',
             'body' => 'required|string',
+            //Tambah kolom category_id
+            'category_id' => 'nullable|exists:categories,id',
         ]);
 
         // Simpan gambar jika ada
@@ -116,6 +124,8 @@ class ArticleController extends Controller
             //Jika tidak ada gambar baru, gunakan gambar lama
             'published_at' => $request->has('is_published') ? Carbon::now() : null,
             'image' => $validated['image'] ?? $article->image,
+            //Tambah category_id
+            'category_id' => $validated['category_id'] ?? null,
         ]);
         return redirect()->route('articles.index')->with('success', 'Article updated successfully.');
     }
