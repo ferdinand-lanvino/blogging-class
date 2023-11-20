@@ -23,6 +23,7 @@ class ContactController extends Controller
             'phone_number' => 'required|numeric|digits_between:5,15',
         ]);
 
+
         // $contact = new Contact();
         // $contact->full_name = $validated['full_name'];
         // $contact->email = $validated['email'];
@@ -36,7 +37,6 @@ class ContactController extends Controller
         // ]);
 
         $contact = Contact::create($validated);
-
         return redirect()->route('contact-us.index')->with('success', 'Thank you, we will contact you soon!');
     }
 }

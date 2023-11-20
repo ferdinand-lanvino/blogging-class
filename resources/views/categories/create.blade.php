@@ -21,18 +21,15 @@
         <div class="col-12 px-5">
             <form action="{{ route('categories.store') }}" method="POST">
                 @csrf
-                <div class="mb-3 col-md-12 col-sm-12">
-                    <label for="name" class="form-label">Category Name</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}">
-                </div>
-                <div class="mb-3 col-md-12 col-sm-12">
-                    <label for="slug" class="form-label">Slug</label>
-                    <input type="text" class="form-control" id="slug" name="slug" value="{{ old('slug') }}">
-                </div>
+                <x-text-field for="name" id="name" name="name" label="Category Name" value="{{ old('name') }}"/>
+
+                <x-text-field for="slug" id="slug" name="slug" label="Slug" value="{{ old('slug') }}"/>
+
                 <div class="mb-3 col-md-12 col-sm-12">
                     <label for="description" class="form-label">Description</label>
                     <textarea class="form-control" rows="10" name="description">{{ old('description') }}</textarea>
                 </div>
+
                 <button type="submit" class="btn btn-primary btn-block">Save</button>
             </form>
         </div>

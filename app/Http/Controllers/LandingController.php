@@ -18,6 +18,8 @@ class LandingController extends Controller
         //Jika terdapat query parameter category
         if ($request->query('category')) {
             //Filter artikel berdasarkan category
+            // select * from articles join categories on articles.category_id = categories.id
+            // where categories.slug = 'world-news'
             $articles->whereHas('category', function ($query) use ($request) {
                 $query->where('slug', $request->query('category'));
             });
