@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\Category;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
@@ -32,7 +33,8 @@ class ArticleController extends Controller
     public function create()
     {
         $categories = Category::all();
-        return view('articles.create', compact('categories'));
+        $tags = Tag::all();
+        return view('articles.create', compact('categories', 'tags'));
     }
 
     /**
@@ -45,6 +47,7 @@ class ArticleController extends Controller
             'body' => 'required|string',
             'category_id' => 'nullable|exists:categories,id',
         ]);
+
 
         // Simpan gambar jika ada
         if ($request->hasFile('image')) {
@@ -66,6 +69,11 @@ class ArticleController extends Controller
             'image' => $validated['image'] ?? null,
             'category_id' => $validated['category_id'] ?? null,
         ]);
+
+        //Tambah tags
+        if ($request->has('tags')) {
+            $article->tags()->attach($request->input('tags'));
+        }
         return redirect()->route('articles.index')->with('success', 'Article added successfully.');
     }
 
@@ -83,7 +91,8 @@ class ArticleController extends Controller
     public function edit(Article $article)
     {
         $categories = Category::all();
-        return view('articles.edit', compact('article', 'categories'));
+        $tags = Tag::all();
+        return view('articles.edit', compact('article', 'categories', 'tags'));
     }
 
     /**
@@ -123,6 +132,12 @@ class ArticleController extends Controller
             'image' => $validated['image'] ?? $article->image,
             'category_id' => $validated['category_id'] ?? null,
         ]);
+
+        //Update tags
+        if ($request->has('tags')) {
+            $article->tags()->sync($request->input('tags'));
+        }
+
         return redirect()->route('articles.index')->with('success', 'Article updated successfully.');
     }
 

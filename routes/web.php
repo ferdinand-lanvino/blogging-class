@@ -7,6 +7,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\BiodataController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TagController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,3 +38,4 @@ Route::get('/biodata/edit', [BiodataController::class, 'edit'])->name('biodata.e
 Route::put('/biodata/edit', [BiodataController::class, 'update'])->name('biodata.update');
 
 Route::resource('categories', CategoryController::class);
+Route::resource('tags', TagController::class);
