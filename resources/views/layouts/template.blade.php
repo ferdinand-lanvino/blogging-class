@@ -48,6 +48,7 @@
     @auth
         <div class="nav-scroller py-1 mb-2">
             <nav class="nav d-flex justify-content-center">
+                <a class="p-2 link-secondary" href="{{ route('tags.index') }}">Tags</a>
                 <a class="p-2 link-secondary" href="{{ route('categories.index') }}">Categories</a>
                 <a class="p-2 link-secondary" href="{{ route('articles.index') }}">Article</a>
             </nav>
