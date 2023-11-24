@@ -29,10 +29,9 @@
                     <label for="image" class="form-label">Image</label>
                     <input class="form-control" type="file" id="image" name="image">
                 </div>
-                <div class="mb-3 col-md-12 col-sm-12">
-                    <label for="body" class="form-label">Body</label>
-                    <textarea class="form-control" rows="10" name="body">{{ old('body') }}</textarea>
-                </div>
+
+                <x-text-field name="body" id="body" value="" label="Body"/>
+
                 <div class="mb-3 col-md-12 col-sm-12">
                     <select class="form-select form-select-lg mb-3" name="category_id">
                         <option>No Category</option>

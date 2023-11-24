@@ -11,9 +11,12 @@
     </div>
 
     @if (session()->has('success'))
-        <div class="alert alert-success mt-4">
+        <x-alert type="success" class="mt-4">
             {{ session()->get('success') }}
-        </div>
+        </x-alert>
+        {{-- <div class="alert alert-success mt-4">
+            {{ session()->get('success') }}
+        </div> --}}
     @endif
 
     <div class="container mt-5">
